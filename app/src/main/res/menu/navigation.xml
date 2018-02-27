@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/inicio"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/men_ini" />
+
+    <item
+        android:id="@+id/estatus"
+        android:icon="@drawable/estatus_24dp"
+        android:title="@string/men_stat" />
+
+    <item
+        android:id="@+id/alerta"
+        android:icon="@drawable/alerta_24dp"
+        android:title="@string/men_ale" />
+
+</menu>
