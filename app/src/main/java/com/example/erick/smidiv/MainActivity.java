@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "Por Favor llenar todos los datos", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(MainActivity.this,Selector.class));
+                startActivity(new Intent(MainActivity.this,Registrar.class));
             }
         });
     }
