@@ -1,8 +1,10 @@
 package com.example.erick.smidiv;
 
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -19,18 +21,22 @@ public class Selector extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment seleccion =  null;
             switch (item.getItemId()) {
                 case R.id.inicio:
-                    fragmentTransaction.replace(R.id.container,new Inicio()).commit();
-                    return true;
+                    seleccion = Inicio.newInstance("some shit","his");
+                    break;
                 case R.id.estatus:
-                    fragmentTransaction.replace(R.id.container,new Estatus()).commit();
-                    return true;
+                    seleccion = Estatus.newInstance("Estatus","his2");
+                    break;
                 case R.id.alerta:
-                    fragmentTransaction.replace(R.id.container,new Alerta()).commit();
-                    return true;
+                    seleccion = Alerta.newInstance("Alerta","his3");
+                    break;
             }
-            return false;
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.container, seleccion);
+            transaction.commit();
+            return true;
         }
     };
 
