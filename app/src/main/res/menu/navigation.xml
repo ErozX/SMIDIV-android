@@ -15,5 +15,15 @@
         android:id="@+id/alerta"
         android:icon="@drawable/alerta_24dp"
         android:title="@string/men_ale" />
+    <item
+        android:id="@+id/ubicacion"
+        android:icon="@drawable/ubicacion"
+        android:title="@string/ubicacion"
+        />
+    <item
+        android:id="@+id/historial"
+        android:icon="@drawable/historial"
+        android:title="@string/historial"
+        />
 
 </menu>

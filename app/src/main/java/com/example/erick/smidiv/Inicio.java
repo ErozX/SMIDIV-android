@@ -1,12 +1,15 @@
 package com.example.erick.smidiv;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -63,8 +66,24 @@ public class Inicio extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View vista = inflater.inflate(R.layout.fragment_inicio, container, false);
+        Button prueba = (Button) vista.findViewById(R.id.button2);
+        prueba.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nuevo = new Intent(getContext(),AgregarAutomovil.class);
+                /*if(getArguments().getString(ARG_PARAM1).toString()!=null)
+                    Bundle b = getIntent().getExtras();
+                int index = b.getInt("index");*/
+                Bundle b = getArguments();
+                Log.d("param1", getArguments().getString("usuario").toString());
+                nuevo.putExtra("usuario",getArguments().getString("usuario").toString());
+                nuevo.putExtra("token",getArguments().getString("token").toString());
+                startActivity(nuevo);
+            }
+        });
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_inicio, container, false);
+        return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

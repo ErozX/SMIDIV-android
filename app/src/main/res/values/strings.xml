@@ -15,7 +15,30 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="agregar_auto">Agregar Auto</string>
-    <string name="cambiar_contrase_a">Cambiar Contraseña</string>
     <string name="bienvenido">Bienvenido</string>
     <string name="alerta">Alerta</string>
+    <string name="registrar_usuario">Registrar Usuario</string>
+    <string name="reg_baner">Registrar</string>
+    <string name="usuario">Usuario</string>
+    <string name="contrase_a">Contraseña</string>
+    <string name="confirmar_contrase_a">Confirmar Contraseña</string>
+    <string name="nacimiento">Fecha de nacimiento</string>
+    <string name="registrar">Registrar</string>
+    <string name="reperir_contrase_a">Reperir Contraseña</string>
+    <string name="correo_electronico">Correo electronico</string>
+    <string name="agregar_alarma">Agregar alarma</string>
+    <string name="ubicacion">Ubicacion</string>
+    <string name="historial">historial</string>
+    <string name="banner_ubicaccion">Banner Ubicaccion</string>
+    <string name="agregar_ubicaci_n">Agregar ubicación</string>
+    <string name="cambiar_contrase_a">Cambiar Contraseña</string>
+    <string name="id">ID</string>
+    <string name="fecha">Fecha</string>
+    <string name="hora">Hora</string>
+    <string name="nombre_automov_l">Nombre Automovíl</string>
+    <string name="modelo_automovil">Modelo Automovil</string>
+    <string name="placas_automovil">Placas Automovil</string>
+    <string name="identificador_smidiv">Identificador SMIDIV</string>
+    <string name="tipo_de_alarma">Tipo de alarma</string>
+    <string name="horario">Horario</string>
 </resources>

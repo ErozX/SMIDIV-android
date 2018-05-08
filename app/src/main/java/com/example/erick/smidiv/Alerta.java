@@ -1,12 +1,15 @@
 package com.example.erick.smidiv;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 
 /**
@@ -63,8 +66,21 @@ public class Alerta extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        final View vista = inflater.inflate(R.layout.fragment_alerta, container, false);
+
+        Button agregaralarma = (Button) vista.findViewById(R.id.button6);
+        agregaralarma.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nuevo = new Intent(getContext(),AgregarAlarma.class);
+                nuevo.putExtra("usuario",getArguments().getString(ARG_PARAM1).toString());
+                nuevo.putExtra("token",getArguments().getString(ARG_PARAM2).toString());
+                startActivity(nuevo);
+            }
+        });
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_alerta, container, false);
+        return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

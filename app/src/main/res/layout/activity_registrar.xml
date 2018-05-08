@@ -6,33 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.erick.smidiv.Registrar">
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="368dp"
-        android:layout_height="103dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="40dp"
-            android:text="@string/reg_baner"
-            android:textColor="@color/colorPrimaryDark"
-            android:textColorLink="@android:color/holo_blue_bright"
-            android:textSize="@dimen/banner_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </android.support.constraint.ConstraintLayout>
-
     <EditText
         android:id="@+id/editText3"
         android:layout_width="252dp"
@@ -42,7 +15,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="424dp"
         android:ems="10"
-        android:hint="Correo electronico"
+        android:hint="@string/correo_electronico"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/button7"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +32,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="304dp"
         android:ems="10"
-        android:hint="Contraseña"
+        android:hint="@string/reperir_contrase_a"
         android:inputType="textPersonName"
         android:password="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +48,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="224dp"
         android:ems="10"
-        android:hint="Contraseña"
+        android:hint="@string/contrase_a"
         android:inputType="textPersonName"
         android:password="true"
         android:phoneNumber="false"
@@ -108,7 +81,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="Fecha"
+        android:hint="@string/fecha"
         android:inputType="date"
         app:layout_constraintBottom_toTopOf="@+id/editText3"
         app:layout_constraintEnd_toEndOf="parent"
@@ -127,5 +100,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="wrap_content"
+        android:layout_height="132dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/registrar" />
 
 </android.support.constraint.ConstraintLayout>
