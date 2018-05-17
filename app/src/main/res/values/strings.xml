@@ -41,4 +41,6 @@
     <string name="identificador_smidiv">Identificador SMIDIV</string>
     <string name="tipo_de_alarma">Tipo de alarma</string>
     <string name="horario">Horario</string>
+    <string name="title_activity_dibuja_mapa">Map</string>
+    <string name="configuraci_n">Configuración</string>
 </resources>

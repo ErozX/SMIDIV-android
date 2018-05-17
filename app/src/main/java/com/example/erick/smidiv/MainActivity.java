@@ -21,6 +21,8 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,11 +49,12 @@ public class MainActivity extends AppCompatActivity {
         final EditText usuario = (EditText) findViewById(R.id.editText);
         final EditText contrasena = (EditText) findViewById(R.id.editText2);
         final RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-        final String url ="http://192.168.1.69:10010/login";
+        final String url ="http://smidiv.javiersl.com:10010/login";
         inicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int con=0;
+                //Log.d("Firebase prro", "onClick: "+ FirebaseInstanceId.getInstance().getToken().toString());
                 if (usuario.getText().toString().length() == 0 || contrasena.getText().toString().length() == 0) {
                     Toast.makeText(MainActivity.this, "Por favor llena los datos", Toast.LENGTH_SHORT).show();
                 } else {
@@ -75,10 +78,49 @@ public class MainActivity extends AppCompatActivity {
                                             Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
                                             //irainicio();
                                             Intent nueva = new Intent(MainActivity.this, Selector.class);
-
+                                            FirebaseMessaging.getInstance().subscribeToTopic(usuario.getText().toString());
+                                            Log.d("Firebase prro", "onResponse: "+FirebaseMessaging.getInstance().toString() );
                                             nueva.putExtra("token", response.get("token").toString());
                                             nueva.putExtra("usuario",usuario.getText().toString());
                                             startActivity(nueva);
+                                            /*JsonObjectRequest request1 = new JsonObjectRequest(Request.Method.POST,
+                                                    url, json,
+                                                    new Response.Listener<JSONObject>() {
+
+                                                        @Override
+                                                        public void onResponse(JSONObject response) {
+                                                            try {
+                                                                if (response.names().get(0).equals("success")) {
+                                                                    StringRequest request;
+                                                                    Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
+                                                                    //irainicio();
+                                                                    Intent nueva = new Intent(MainActivity.this, Selector.class);
+                                                                    FirebaseMessaging.getInstance().subscribeToTopic(usuario.getText().toString());
+                                                                    Log.d("Firebase prro", "onResponse: "+FirebaseMessaging.getInstance().toString() );
+                                                                    nueva.putExtra("token", response.get("token").toString());
+                                                                    nueva.putExtra("usuario",usuario.getText().toString());
+                                                                    startActivity(nueva);
+                                                                } else {
+                                                                    Log.d("error", "error en la respuesta");
+                                                                    Toast.makeText(getApplicationContext(), response.getString("Usuario o contraseña incorrectos vuelve a intentarlo"), Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            } catch (JSONException e) {
+                                                                e.printStackTrace();
+                                                            }
+                                                        }
+                                                    }, new Response.ErrorListener() {
+
+                                                @Override
+                                                public void onErrorResponse(VolleyError error) {
+                                                    if (contador >=3){
+                                                        cambiarcon.setVisibility(View.VISIBLE);
+                                                    }
+                                                    contador +=1;
+                                                    Toast.makeText(getApplicationContext(), "Usuario o contraseña incorrectos vuelve a intentarlo", Toast.LENGTH_SHORT).show();
+                                                    VolleyLog.d("error", "Error: " + error.getMessage());
+                                                }
+                                            });
+                                            queue.add(request1);*/
                                         } else {
                                             Log.d("error", "error en la respuesta");
                                             Toast.makeText(getApplicationContext(), response.getString("Usuario o contraseña incorrectos vuelve a intentarlo"), Toast.LENGTH_SHORT).show();

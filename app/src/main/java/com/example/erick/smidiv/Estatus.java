@@ -5,10 +5,28 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -24,7 +42,7 @@ public class Estatus extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    public ArrayList<obdItem> obds = new ArrayList<>();
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -68,6 +86,54 @@ public class Estatus extends Fragment {
 
         View vista= inflater.inflate(R.layout.fragment_estatus, container, false);
         // Inflate the layout for this fragment
+
+        final RequestQueue queue = Volley.newRequestQueue(getContext());
+        final String vehiculo =  "ABC123";
+        final String url ="http://192.168.1.69:10010/OBD" +
+                "/"+vehiculo;
+        final ListView lista  = (ListView) vista.findViewById(R.id.estus);
+        ArrayList<ubicacionitem> ubic = new ArrayList<>();
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
+                url,null,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            for (int i = 0; i <response.getJSONObject("response").getJSONArray("OBD").length(); i++) {
+                                JSONObject info =  response.getJSONObject("response").getJSONArray("OBD").getJSONObject(i);
+                                Log.d("contador", "onResponse: "+i);
+                                obds.add(new obdItem(info.get("tipo").toString(),info.get("valor").toString()));
+                                //añadeubicacion(new ubicacionitem("Casa",info.getJSONObject("ubicacion").get("lat").toString(),info.getJSONObject("ubicacion").get("lon").toString()));
+                            }
+
+                            AdaptadorOBD ad = new AdaptadorOBD(getContext(),obds);
+
+                            Log.d("tamaño", "tamaño de ubicacion "+obds.size());
+                            lista.setAdapter(ad);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("error", "Error: " + error.getMessage());
+            }
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //headers.put("Content-Type", "application/json");
+                headers.put("X-API-KEY",getArguments().getString(ARG_PARAM2).toString());
+                return headers;
+            }
+        };
+        queue.add(request);
 
         return vista;
     }

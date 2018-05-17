@@ -67,21 +67,21 @@ public class Inicio extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_inicio, container, false);
-        Button prueba = (Button) vista.findViewById(R.id.button2);
+        /*Button prueba = (Button) vista.findViewById(R.id.button2);
         prueba.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent nuevo = new Intent(getContext(),AgregarAutomovil.class);
                 /*if(getArguments().getString(ARG_PARAM1).toString()!=null)
                     Bundle b = getIntent().getExtras();
-                int index = b.getInt("index");*/
+                int index = b.getInt("index");
                 Bundle b = getArguments();
                 Log.d("param1", getArguments().getString("usuario").toString());
                 nuevo.putExtra("usuario",getArguments().getString("usuario").toString());
                 nuevo.putExtra("token",getArguments().getString("token").toString());
                 startActivity(nuevo);
             }
-        });
+        });*/
         // Inflate the layout for this fragment
         return vista;
     }

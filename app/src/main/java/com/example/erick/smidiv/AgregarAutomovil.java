@@ -63,8 +63,9 @@ public class AgregarAutomovil extends AppCompatActivity {
 
                                 @Override
                                 public void onResponse(JSONObject response) {
+
                                     try {
-                                        if (response.names().get(0).equals("success")) {
+
                                             StringRequest request;
                                             Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
                                             //irainicio();
@@ -72,11 +73,8 @@ public class AgregarAutomovil extends AppCompatActivity {
                                             nuevo.putExtra("token", response.names().get(0).equals("token"));
                                             startActivity(nuevo);
 
-                                        } else {
-                                            Log.d("error", "error en la respuesta");
-                                            Toast.makeText(getApplicationContext(), response.getString("Ocurrio un error ingresando los datos"), Toast.LENGTH_SHORT).show();
-                                        }
-                                    } catch (JSONException e) {
+
+                                    }catch (JSONException e) {
                                         e.printStackTrace();
                                     }
                                 }
@@ -103,7 +101,6 @@ public class AgregarAutomovil extends AppCompatActivity {
                     };
                     cola.add(request);
                 }
-                Toast.makeText(AgregarAutomovil.this, getIntent().getExtras().getString("token").toString() , Toast.LENGTH_SHORT).show();
                 }
         });
     }

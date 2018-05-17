@@ -44,8 +44,8 @@ public class Selector extends AppCompatActivity {
                 case R.id.ubicacion:
                     seleccion = Ubicacion.newInstance(usuario,token);
                     break;
-                case R.id.historial:
-                    seleccion = Historial.newInstance(usuario,token);
+                case R.id.configuracion:
+                    seleccion = Configuracion.newInstance(usuario,token);
                     break;
             }
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

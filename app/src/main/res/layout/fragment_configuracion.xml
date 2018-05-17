@@ -22,12 +22,34 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/imageButton6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/configButton"
+            android:layout_width="123dp"
+            android:layout_height="120dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="116dp"
             android:src="@drawable/config1"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="507dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.224"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+        <ImageButton
+            android:id="@+id/agregarAuto"
+            android:layout_width="130dp"
+            android:layout_height="126dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="116dp"
+            android:adjustViewBounds="true"
+            android:maxHeight="320px"
+            android:maxWidth="320px"
+            android:scaleType="fitXY"
+            android:src="@drawable/addcar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

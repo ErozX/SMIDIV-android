@@ -21,9 +21,8 @@
         android:title="@string/ubicacion"
         />
     <item
-        android:id="@+id/historial"
-        android:icon="@drawable/historial"
-        android:title="@string/historial"
+        android:id="@+id/configuracion"
+        android:icon="@drawable/configuracion"
+        android:title="Configuracion"
         />
-
 </menu>

@@ -5,11 +5,29 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -25,6 +43,8 @@ public class Alerta extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    public ArrayList<ubicacionitem> ubicacion = new ArrayList<>();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -67,7 +87,52 @@ public class Alerta extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View vista = inflater.inflate(R.layout.fragment_alerta, container, false);
+        final RequestQueue queue = Volley.newRequestQueue(getContext());
+        final String vehiculo =  "ABC123";
+        final String url ="http://192.168.1.69:10010/ubicacion/"+vehiculo;
+        final ListView lista  = (ListView) vista.findViewById(R.id.alarmas);
+        ArrayList<ubicacionitem> ubic = new ArrayList<>();
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
+                url,null,
+                new Response.Listener<JSONObject>() {
 
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            for (int i = 0; i <response.getJSONObject("response").getJSONArray("ubicaciones").length(); i++) {
+                                JSONObject info =  response.getJSONObject("response").getJSONArray("ubicaciones").getJSONObject(i);
+                                Log.d("contador", "onResponse: "+i);
+                                ubicacion.add(new ubicacionitem("casa",info.getJSONObject("ubicacion").get("lat").toString(),info.getJSONObject("ubicacion").get("lon").toString()));
+                                //añadeubicacion(new ubicacionitem("Casa",info.getJSONObject("ubicacion").get("lat").toString(),info.getJSONObject("ubicacion").get("lon").toString()));
+                            }
+
+                            Adaptador1 ad = new Adaptador1(getContext(),ubicacion);
+
+                            Log.d("tamaño", "tamaño de ubicacion "+ubicacion.size());
+                            lista.setAdapter(ad);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("error", "Error: " + error.getMessage());
+            }
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //headers.put("Content-Type", "application/json");
+                headers.put("X-API-KEY",getArguments().getString(ARG_PARAM2).toString());
+                return headers;
+            }
+        };
+        queue.add(request);
         Button agregaralarma = (Button) vista.findViewById(R.id.button6);
         agregaralarma.setOnClickListener(new View.OnClickListener() {
             @Override

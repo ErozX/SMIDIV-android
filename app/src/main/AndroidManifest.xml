@@ -3,8 +3,12 @@
     package="com.example.erick.smidiv">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -16,7 +20,10 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAKfwcyHVNjbcZ5eml-K7EWQ_hexIr0rbc"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAKfwcyHVNjbcZ5eml-K7EWQ_hexIr0rbc" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,12 +38,27 @@
         <activity android:name=".CambiarContrasena" />
         <activity android:name=".AgregarAutomovil" />
         <activity android:name=".AgregarUbicacion" />
-        <activity android:name=".AgregarAlarma"></activity>
-        <uses-library android:name="com.google.android.maps" />
-    </application>
+        <activity android:name=".AgregarAlarma" />
 
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true"/>
+        <uses-library android:name="com.google.android.maps" />
+
+        <service android:name=".MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".DibujaMapa"
+            android:label="@string/title_activity_dibuja_mapa"></activity>
+    </application>
 
 </manifest>

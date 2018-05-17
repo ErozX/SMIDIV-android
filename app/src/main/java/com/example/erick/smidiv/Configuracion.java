@@ -1,6 +1,7 @@
 package com.example.erick.smidiv;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -66,7 +67,29 @@ public class Configuracion extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_configuracion, container, false);
+        View vista = inflater.inflate(R.layout.fragment_configuracion, container, false);
+        ImageButton config = vista.findViewById(R.id.configButton);
+        config.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent enviar = new Intent(getContext(),CambiarContrasena.class);
+                enviar.putExtra("usuario",getArguments().getString(ARG_PARAM1).toString());
+                enviar.putExtra("token",getArguments().getString(ARG_PARAM2).toString());
+                startActivity(enviar);
+
+            }
+        });
+        final ImageButton agregarAuto = vista.findViewById(R.id.agregarAuto);
+        agregarAuto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent enviar = new Intent(getContext(),AgregarAutomovil.class);
+                enviar.putExtra("usuario",getArguments().getString(ARG_PARAM1).toString());
+                enviar.putExtra("token",getArguments().getString(ARG_PARAM2).toString());
+                startActivity(enviar);
+            }
+        });
+        return vista;
 
     }
 

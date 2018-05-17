@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -12,7 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -29,6 +34,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -37,6 +43,7 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,6 +66,7 @@ public class Ubicacion extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     public int pruebas;
+    public ArrayList<ubicacionitem> ubicacion = new ArrayList<>();
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -100,133 +108,101 @@ public class Ubicacion extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        final View vista = inflater.inflate(R.layout.fragment_ubicacion, container, false);
-        if (ContextCompat.checkSelfPermission(getContext(),
-                ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            Log.d("maP","HOLA");
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    ACCESS_FINE_LOCATION)) {
+            // Inflate the layout for this fragment
+            final View vista = inflater.inflate(R.layout.fragment_ubicacion, container, false);
+            if (ContextCompat.checkSelfPermission(getContext(),
+                    ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                Log.d("maP","HOLA");
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                        ACCESS_FINE_LOCATION)) {
 
-                // Show an expanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
+                    // Show an expanation to the user *asynchronously* -- don't block
+                    // this thread waiting for the user's response! After the user
+                    // sees the explanation, try again to request the permission.
 
-            } else {
+                } else {
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{ACCESS_FINE_LOCATION},
+                            pruebas);
 
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{ACCESS_FINE_LOCATION},
-                        pruebas);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
+                }
             }
-        }
 
         final RequestQueue queue = Volley.newRequestQueue(getContext());
         final String vehiculo =  "ABC123";
         final String url ="http://192.168.1.69:10010/ubicacion/"+vehiculo;
+        final ListView lista  = (ListView) vista.findViewById(R.id.listaubicacion);
+        ArrayList<ubicacionitem> ubic = new ArrayList<>();
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
+                url,null,
+                new Response.Listener<JSONObject>() {
 
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
-                    url,null,
-                    new Response.Listener<JSONObject>() {
-
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            try {
-                                //validar la salida de el
-
-                                TableLayout t1 = (TableLayout) vista.findViewById(R.id.tableLayout3);
-                                TextView id ;
-                                TextView fecha;
-                                TextView accion;
-                                TextView ubicacion;
-                                for (int i = 0; i <response.getJSONObject("response").getJSONArray("ubicaciones").length(); i++) {
-                                    JSONObject ubic =  response.getJSONObject("response").getJSONArray("ubicaciones").getJSONObject(i);
-                                    Log.d("json"+ String.valueOf(i), ubic.getJSONObject("ubicacion").get("lat").toString());
-                                    TableRow row= new TableRow(getContext());
-                                    TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
-                                    row.setLayoutParams(lp);
-                                    id = new TextView(getContext());
-                                    fecha = new TextView(getContext());
-                                    accion = new TextView(getContext());
-                                    ubicacion = new TextView(getContext());
-                                    id.setText(String.valueOf(i));
-                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                                    sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-                                    Date date = sdf.parse(ubic.get("fechaCreacion").toString());
-                                    SimpleDateFormat año = new SimpleDateFormat("yyyyy-mm-dd");
-                                    SimpleDateFormat hor = new SimpleDateFormat("hh:mm:ss");
-                                    //SimpleDateFormat dt = new SimpleDateFormat(ubic.get("fechaCreacion").toString());
-                                    fecha.setText(año.format(date));
-                                    accion.setText(ubic.getJSONObject("ubicacion").get("lat").toString()+","+ubic.getJSONObject("ubicacion").get("lon").toString());
-                                    ubicacion.setText("los cabos");
-                                    row.addView(id);
-                                    row.addView(fecha);
-                                    row.addView(accion);
-                                    t1.addView(row,i);
-                                }
-                                for (int i = 0 ;i <response.getJSONArray("response").length();i++){
-                                    Log.d("json", response.getJSONArray("response").getString(1));
-                                }
-
-                                if (response.names().get(0).equals("success")) {
-                                    StringRequest request;
-                                    /*
-                                    Intent nueva = new Intent(getContext(), Selector.class);
-
-                                    startActivity(nueva);*/
-                                } else {
-                                    Log.d("error", "error en la respuesta");
-                                    Toast.makeText(getContext(), response.getString("Usuario o contraseña incorrectos vuelve a intentarlo"), Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } catch (ParseException e) {
-                                e.printStackTrace();
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            for (int i = 0; i <response.getJSONObject("response").getJSONArray("ubicaciones").length(); i++) {
+                                JSONObject info =  response.getJSONObject("response").getJSONArray("ubicaciones").getJSONObject(i);
+                                Log.d("contador", "onResponse: "+i);
+                                ubicacion.add(new ubicacionitem(String.valueOf(i),info.getJSONObject("ubicacion").get("lat").toString(),info.getJSONObject("ubicacion").get("lon").toString()));
+                                //añadeubicacion(new ubicacionitem("Casa",info.getJSONObject("ubicacion").get("lat").toString(),info.getJSONObject("ubicacion").get("lon").toString()));
                             }
+
+                            Adaptador1 ad = new Adaptador1(getContext(),ubicacion);
+
+                            Log.d("tamaño", "tamaño de ubicacion "+ubicacion.size());
+                            lista.setAdapter(ad);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    }, new Response.ErrorListener() {
+                    }
+                }, new Response.ErrorListener() {
 
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    VolleyLog.d("error", "Error: " + error.getMessage());
-                }
-            }){
-
-                /**
-                 * Passing some request headers
-                 */
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    HashMap<String, String> headers = new HashMap<String, String>();
-                    //headers.put("Content-Type", "application/json");
-                    headers.put("X-API-KEY",getArguments().getString(ARG_PARAM2).toString());
-                    return headers;
-                }
-            };
-            queue.add(request);
-
-
-        Button agregaUbic = (Button) vista.findViewById(R.id.Ubi_agregaUbi);
-        agregaUbic.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent nuevo = new Intent(getContext(),AgregarUbicacion.class);
-                nuevo.putExtra("usuario",getArguments().getString(ARG_PARAM1).toString());
-                nuevo.putExtra("token",getArguments().getString(ARG_PARAM2).toString());
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("error", "Error: " + error.getMessage());
+            }
+        }){
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                //headers.put("Content-Type", "application/json");
+                headers.put("X-API-KEY",getArguments().getString(ARG_PARAM2).toString());
+                return headers;
+            }
+        };
+        queue.add(request);
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ubicacionitem sel = (ubicacionitem) adapterView.getItemAtPosition(i);
+                String lat = sel.getLat();
+                String lon = sel.getLon();
+                Intent nuevo = new Intent(getContext(),DibujaMapa.class);
+                nuevo.putExtra("lat",lat);
+                nuevo.putExtra("lon",lon);
                 startActivity(nuevo);
             }
         });
 
 
+            //lista.setVisibility(View.INVISIBLE);
+            Button agregaUbic = (Button) vista.findViewById(R.id.Ubi_agregaUbi);
+            agregaUbic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent nuevo = new Intent(getContext(),AgregarUbicacion.class);
+                    nuevo.putExtra("usuario",getArguments().getString(ARG_PARAM1).toString());
+                    nuevo.putExtra("token",getArguments().getString(ARG_PARAM2).toString());
+                    startActivity(nuevo);
+                }
+            });
 
-        return vista;
+            return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -265,5 +241,21 @@ public class Ubicacion extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    public void getUbicacion(){
+
+
+    }
+
+    public void añadeubicacion(ubicacionitem cosa){
+        Log.d("Añadeubicacion", "lo hice");
+        ubicacion.add(cosa);
+        Log.d("ubicacion", "tamaño"+ubicacion.size());
+    }
+    public ArrayList<ubicacionitem> obtenerUbi(){
+        return ubicacion;
+    }
+    public void borraubicacion(ubicacionitem cosa){
+
     }
 }
