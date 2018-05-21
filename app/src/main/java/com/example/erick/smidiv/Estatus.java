@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -42,10 +43,12 @@ public class Estatus extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM3 = "param3";
     public ArrayList<obdItem> obds = new ArrayList<>();
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private String mParam3;
 
     private OnFragmentInteractionListener mListener;
 
@@ -62,11 +65,12 @@ public class Estatus extends Fragment {
      * @return A new instance of fragment Estatus.
      */
     // TODO: Rename and change types and number of parameters
-    public static Estatus newInstance(String param1, String param2) {
+    public static Estatus newInstance(String param1, String param2, String param3) {
         Estatus fragment = new Estatus();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM3, param3);
         fragment.setArguments(args);
         return fragment;
     }
@@ -77,6 +81,7 @@ public class Estatus extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam3 = getArguments().getString(ARG_PARAM3);
         }
     }
 
@@ -100,6 +105,9 @@ public class Estatus extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            if(response.getJSONObject("response").getJSONArray("OBD").length()==0){
+                                Toast.makeText(getContext(), "Todavia no tenemos información", Toast.LENGTH_SHORT).show();
+                            }
                             for (int i = 0; i <response.getJSONObject("response").getJSONArray("OBD").length(); i++) {
                                 JSONObject info =  response.getJSONObject("response").getJSONArray("OBD").getJSONObject(i);
                                 Log.d("contador", "onResponse: "+i);
@@ -122,6 +130,7 @@ public class Estatus extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d("error", "Error: " + error.getMessage());
+                Toast.makeText(getContext(), "Error obteniendo conexion", Toast.LENGTH_SHORT).show();
             }
         }){
 

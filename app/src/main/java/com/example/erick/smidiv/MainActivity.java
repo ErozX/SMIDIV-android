@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-
+    public String SMTOKEN= new String();
 
 
 
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         final EditText contrasena = (EditText) findViewById(R.id.editText2);
         final RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
         final String url ="http://smidiv.javiersl.com:10010/login";
+
         inicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,34 +76,46 @@ public class MainActivity extends AppCompatActivity {
                                     try {
                                         if (response.names().get(0).equals("success")) {
                                             StringRequest request;
-                                            Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
-                                            //irainicio();
-                                            Intent nueva = new Intent(MainActivity.this, Selector.class);
                                             FirebaseMessaging.getInstance().subscribeToTopic(usuario.getText().toString());
                                             Log.d("Firebase prro", "onResponse: "+FirebaseMessaging.getInstance().toString() );
+
+                                            Log.d("login", "onResponse: "+response.getString("token").toString());
+                                            /*Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
+                                            //irainicio();*/
+
+                                            final Intent nueva = new Intent(MainActivity.this, Selector.class);
                                             nueva.putExtra("token", response.get("token").toString());
+                                            final String Tok = response.get("token").toString();
                                             nueva.putExtra("usuario",usuario.getText().toString());
-                                            startActivity(nueva);
-                                            /*JsonObjectRequest request1 = new JsonObjectRequest(Request.Method.POST,
-                                                    url, json,
+
+                                            final RequestQueue cola = Volley.newRequestQueue(MainActivity.this);
+                                            Toast.makeText(MainActivity.this, "login", Toast.LENGTH_SHORT).show();
+                                            String direccion = "http://192.168.1.69:10010/vehicle/"+usuario.getText().toString();
+                                            JsonObjectRequest request1 = new JsonObjectRequest(Request.Method.GET,
+                                                    direccion, null,
                                                     new Response.Listener<JSONObject>() {
 
                                                         @Override
                                                         public void onResponse(JSONObject response) {
+                                                            Log.d("vehiculo", "RESPUESTA");
                                                             try {
-                                                                if (response.names().get(0).equals("success")) {
-                                                                    StringRequest request;
-                                                                    Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
-                                                                    //irainicio();
-                                                                    Intent nueva = new Intent(MainActivity.this, Selector.class);
-                                                                    FirebaseMessaging.getInstance().subscribeToTopic(usuario.getText().toString());
-                                                                    Log.d("Firebase prro", "onResponse: "+FirebaseMessaging.getInstance().toString() );
-                                                                    nueva.putExtra("token", response.get("token").toString());
-                                                                    nueva.putExtra("usuario",usuario.getText().toString());
-                                                                    startActivity(nueva);
+                                                                if (response.names().get(0).equals("sucess")) {
+
+                                                                    Intent main = new Intent (MainActivity.this,Selector.class);
+                                                                    Toast.makeText(MainActivity.this, "Bienvenido", Toast.LENGTH_SHORT).show();
+                                                                    main.putExtra("token",Tok);
+                                                                    main.putExtra("usuario",usuario.getText().toString());
+                                                                    main.putExtra("vehiculo",response.getJSONObject("response").getJSONObject("vehiculo").get("placas").toString());
+                                                                    startActivity(main);
                                                                 } else {
-                                                                    Log.d("error", "error en la respuesta");
-                                                                    Toast.makeText(getApplicationContext(), response.getString("Usuario o contraseña incorrectos vuelve a intentarlo"), Toast.LENGTH_SHORT).show();
+                                                                    Log.d("error", "error vehiculo");
+                                                                    Intent main = new Intent (MainActivity.this,Selector.class);
+                                                                    Toast.makeText(MainActivity.this, "Bienvenido", Toast.LENGTH_SHORT).show();
+                                                                    main.putExtra("token",Tok);
+                                                                    main.putExtra("usuario",usuario.getText().toString());
+                                                                    main.putExtra("vehiculo","1");
+                                                                    startActivity(main);
+                                                                    Toast.makeText(getApplicationContext(), response.getString("error prro"), Toast.LENGTH_SHORT).show();
                                                                 }
                                                             } catch (JSONException e) {
                                                                 e.printStackTrace();
@@ -112,15 +125,23 @@ public class MainActivity extends AppCompatActivity {
 
                                                 @Override
                                                 public void onErrorResponse(VolleyError error) {
-                                                    if (contador >=3){
-                                                        cambiarcon.setVisibility(View.VISIBLE);
-                                                    }
-                                                    contador +=1;
-                                                    Toast.makeText(getApplicationContext(), "Usuario o contraseña incorrectos vuelve a intentarlo", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getApplicationContext(), "Sin conexión", Toast.LENGTH_SHORT).show();
                                                     VolleyLog.d("error", "Error: " + error.getMessage());
+                                                }}) {
+
+                                                @Override
+                                                public Map<String, String> getHeaders() throws AuthFailureError {
+                                                    HashMap<String, String> headers = new HashMap<String, String>();
+                                                    //headers.put("Content-Type", "application/json");
+                                                    headers.put("X-API-KEY", Tok);
+                                                    return headers;
                                                 }
-                                            });
-                                            queue.add(request1);*/
+                                            };
+                                            cola.add(request1);
+
+                                            //verificar
+
+
                                         } else {
                                             Log.d("error", "error en la respuesta");
                                             Toast.makeText(getApplicationContext(), response.getString("Usuario o contraseña incorrectos vuelve a intentarlo"), Toast.LENGTH_SHORT).show();
@@ -142,9 +163,17 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                     queue.add(request);
+                    Log.d("token antes de mandarlo", "onClick: "+SMTOKEN);
+
                 }
             }
         });
+        //Log.d("Token", SMTOKEN);
+        //while(SMTOKEN.length()!=0){
+
+
+
+
         cambiarcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

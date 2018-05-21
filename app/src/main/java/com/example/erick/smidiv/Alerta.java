@@ -43,12 +43,15 @@ public class Alerta extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM3 = "param3";
 
     public ArrayList<ubicacionitem> ubicacion = new ArrayList<>();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private String mParam3;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -65,11 +68,12 @@ public class Alerta extends Fragment {
      * @return A new instance of fragment Alerta.
      */
     // TODO: Rename and change types and number of parameters
-    public static Alerta newInstance(String param1, String param2) {
+    public static Alerta newInstance(String param1, String param2, String param3) {
         Alerta fragment = new Alerta();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM3, param3);
         fragment.setArguments(args);
         return fragment;
     }
@@ -80,6 +84,7 @@ public class Alerta extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam3 = getArguments().getString(ARG_PARAM3);
         }
     }
 
@@ -88,8 +93,8 @@ public class Alerta extends Fragment {
                              Bundle savedInstanceState) {
         final View vista = inflater.inflate(R.layout.fragment_alerta, container, false);
         final RequestQueue queue = Volley.newRequestQueue(getContext());
-        final String vehiculo =  "ABC123";
-        final String url ="http://192.168.1.69:10010/ubicacion/"+vehiculo;
+        //final String vehiculo =  "ABC123";
+        final String url ="http://192.168.1.69:10010/ubicacion/"+getArguments().getString(ARG_PARAM3).toString();
         final ListView lista  = (ListView) vista.findViewById(R.id.alarmas);
         ArrayList<ubicacionitem> ubic = new ArrayList<>();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
@@ -99,6 +104,9 @@ public class Alerta extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            if(response.getJSONObject("response").getJSONArray("ubicaciones").length()==0){
+                                Toast.makeText(getContext(), "Todavia no tenemos información", Toast.LENGTH_SHORT).show();
+                            }
                             for (int i = 0; i <response.getJSONObject("response").getJSONArray("ubicaciones").length(); i++) {
                                 JSONObject info =  response.getJSONObject("response").getJSONArray("ubicaciones").getJSONObject(i);
                                 Log.d("contador", "onResponse: "+i);

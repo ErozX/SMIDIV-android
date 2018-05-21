@@ -1,5 +1,6 @@
 package com.example.erick.smidiv;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -29,8 +31,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+
+import static java.lang.Boolean.FALSE;
 
 public class AgregarAlarma extends AppCompatActivity {
     String tipoalarma = new String();
@@ -44,6 +49,42 @@ public class AgregarAlarma extends AppCompatActivity {
         final RequestQueue cola = Volley.newRequestQueue(AgregarAlarma.this);
         //RadioGroup grupo = (RadioGroup) findViewById(R.id.)
         EditText placas = (EditText) findViewById(R.id.editText4);
+        final EditText rango_inicio = (EditText) findViewById(R.id.Rango_inicio);
+        final EditText rango_fin = (EditText) findViewById(R.id.Rango_fin);
+        rango_inicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                final int minute = mcurrentTime.get(Calendar.MINUTE);
+                boolean es24 = FALSE;
+                TimePickerDialog hora = new TimePickerDialog(AgregarAlarma.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                        rango_inicio.setText(timePicker.getHour()+":"+timePicker.getMinute());
+                    }
+                },hour, minute, es24);
+                hora.setTitle("Selecciona una hora");
+                hora.show();
+            }
+        });
+        rango_fin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar mcurrentTime1 = Calendar.getInstance();
+                final int hour1 = mcurrentTime1.get(Calendar.HOUR_OF_DAY);
+                final int minute1 = mcurrentTime1.get(Calendar.MINUTE);
+                boolean es24 = FALSE;
+                TimePickerDialog hora1 = new TimePickerDialog(AgregarAlarma.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                        rango_fin.setText(timePicker.getHour()+":"+timePicker.getHour());
+                    }
+                },hour1, minute1, es24);
+                hora1.setTitle("Selecciona una hora");
+                hora1.show();
+            }
+        });
         Button registrar = (Button) findViewById(R.id.button7);
         RadioGroup rd = (RadioGroup) findViewById(R.id.radiogroup1);
         String[] ejemplo = {"Primer", "Segundo", "Tercer", "Cuarto", "Quinto"};
@@ -54,13 +95,13 @@ public class AgregarAlarma extends AppCompatActivity {
         lista.setAdapter(ad);
         final String seleccion = new String();
         final Switch estado = (Switch) findViewById(R.id.switch1);
-
+        lista.setVisibility(View.INVISIBLE);
         rd.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 RadioButton opcion = (RadioButton) findViewById(i);
                 tipoalarma = opcion.getText().toString();
-                lista.setVisibility(View.INVISIBLE);
+                lista.setVisibility(View.VISIBLE);
                 Toast.makeText(AgregarAlarma.this, tipoalarma, Toast.LENGTH_SHORT).show();
             }
         });

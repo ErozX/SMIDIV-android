@@ -65,11 +65,14 @@ public class Ubicacion extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM3 = "param3";
+
     public int pruebas;
     public ArrayList<ubicacionitem> ubicacion = new ArrayList<>();
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private String mParam3;
 
     private OnFragmentInteractionListener mListener;
 
@@ -86,11 +89,12 @@ public class Ubicacion extends Fragment {
      * @return A new instance of fragment Ubicacion.
      */
     // TODO: Rename and change types and number of parameters
-    public static Ubicacion newInstance(String param1, String param2) {
+    public static Ubicacion newInstance(String param1, String param2, String param3) {
         Ubicacion fragment = new Ubicacion();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM3, param3);
         fragment.setArguments(args);
         return fragment;
     }
@@ -101,6 +105,7 @@ public class Ubicacion extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam3 = getArguments().getString(ARG_PARAM3);
             Log.d("attach", "onCreate: "+mParam1);
         }
     }
@@ -131,8 +136,8 @@ public class Ubicacion extends Fragment {
             }
 
         final RequestQueue queue = Volley.newRequestQueue(getContext());
-        final String vehiculo =  "ABC123";
-        final String url ="http://192.168.1.69:10010/ubicacion/"+vehiculo;
+
+        final String url ="http://192.168.1.69:10010/ubicacion/"+getArguments().getString(ARG_PARAM3).toString();
         final ListView lista  = (ListView) vista.findViewById(R.id.listaubicacion);
         ArrayList<ubicacionitem> ubic = new ArrayList<>();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
@@ -142,6 +147,9 @@ public class Ubicacion extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            if(response.getJSONObject("response").getJSONArray("ubicaciones").length()==0){
+                                Toast.makeText(getContext(), "Todavia no tenemos información", Toast.LENGTH_SHORT).show();
+                            }
                             for (int i = 0; i <response.getJSONObject("response").getJSONArray("ubicaciones").length(); i++) {
                                 JSONObject info =  response.getJSONObject("response").getJSONArray("ubicaciones").getJSONObject(i);
                                 Log.d("contador", "onResponse: "+i);
@@ -163,6 +171,7 @@ public class Ubicacion extends Fragment {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "No hay conexion", Toast.LENGTH_SHORT).show();
                 VolleyLog.d("error", "Error: " + error.getMessage());
             }
         }){
@@ -198,6 +207,7 @@ public class Ubicacion extends Fragment {
                     Intent nuevo = new Intent(getContext(),AgregarUbicacion.class);
                     nuevo.putExtra("usuario",getArguments().getString(ARG_PARAM1).toString());
                     nuevo.putExtra("token",getArguments().getString(ARG_PARAM2).toString());
+                    nuevo.putExtra("vehiculo",getArguments().getString(ARG_PARAM3).toString());
                     startActivity(nuevo);
                 }
             });
