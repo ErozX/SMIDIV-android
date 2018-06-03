@@ -137,8 +137,9 @@ public class Ubicacion extends Fragment {
 
         final RequestQueue queue = Volley.newRequestQueue(getContext());
 
-        final String url ="http://192.168.1.69:10010/ubicacion/"+getArguments().getString(ARG_PARAM3).toString();
+        final String url ="http://192.168.1.64:10010/ubicacion/"+getArguments().getString(ARG_PARAM3).toString();
         final ListView lista  = (ListView) vista.findViewById(R.id.listaubicacion);
+        final TextView no_ubi = (TextView) vista.findViewById(R.id.sin_ubic);
         ArrayList<ubicacionitem> ubic = new ArrayList<>();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
                 url,null,
@@ -148,19 +149,18 @@ public class Ubicacion extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             if(response.getJSONObject("response").getJSONArray("ubicaciones").length()==0){
+                                Log.d("tam", "onResponse: "+response.getJSONObject("response").getJSONArray("ubicaciones").length());
                                 Toast.makeText(getContext(), "Todavia no tenemos información", Toast.LENGTH_SHORT).show();
                             }
-                            for (int i = 0; i <response.getJSONObject("response").getJSONArray("ubicaciones").length(); i++) {
-                                JSONObject info =  response.getJSONObject("response").getJSONArray("ubicaciones").getJSONObject(i);
-                                Log.d("contador", "onResponse: "+i);
-                                ubicacion.add(new ubicacionitem(String.valueOf(i),info.getJSONObject("ubicacion").get("lat").toString(),info.getJSONObject("ubicacion").get("lon").toString()));
-                                //añadeubicacion(new ubicacionitem("Casa",info.getJSONObject("ubicacion").get("lat").toString(),info.getJSONObject("ubicacion").get("lon").toString()));
+                            else {
+                                no_ubi.setVisibility(View.INVISIBLE);
+                                for (int i = 0; i <response.getJSONObject("response").getJSONArray("ubicaciones").length(); i++) {
+                                    JSONObject info =  response.getJSONObject("response").getJSONArray("ubicaciones").getJSONObject(i);
+                                    ubicacion.add(new ubicacionitem(String.valueOf(i),info.getJSONObject("ubicacion").get("lat").toString(),info.getJSONObject("ubicacion").get("lng").toString()));
+                                 }
+                                Adaptador1 ad = new Adaptador1(getContext(),ubicacion);
+                                lista.setAdapter(ad);
                             }
-
-                            Adaptador1 ad = new Adaptador1(getContext(),ubicacion);
-
-                            Log.d("tamaño", "tamaño de ubicacion "+ubicacion.size());
-                            lista.setAdapter(ad);
 
 
                         } catch (JSONException e) {

@@ -49,8 +49,9 @@ public class MainActivity extends AppCompatActivity {
         final EditText usuario = (EditText) findViewById(R.id.editText);
         final EditText contrasena = (EditText) findViewById(R.id.editText2);
         final RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-        final String url ="http://smidiv.javiersl.com:10010/login";
-
+        //http://192.168.1.69:1001
+        //final String url ="http://smidiv.javiersl.com:10010/login";
+        final String url ="http://192.168.1.64:10010/login";
         inicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,31 +91,32 @@ public class MainActivity extends AppCompatActivity {
 
                                             final RequestQueue cola = Volley.newRequestQueue(MainActivity.this);
                                             Toast.makeText(MainActivity.this, "login", Toast.LENGTH_SHORT).show();
-                                            String direccion = "http://192.168.1.69:10010/vehicle/"+usuario.getText().toString();
+                                            String direccion = "http://192.168.1.64:10010/vehicle/"+usuario.getText().toString();
                                             JsonObjectRequest request1 = new JsonObjectRequest(Request.Method.GET,
                                                     direccion, null,
                                                     new Response.Listener<JSONObject>() {
 
                                                         @Override
                                                         public void onResponse(JSONObject response) {
-                                                            Log.d("vehiculo", "RESPUESTA");
+                                                            //Log.d("vehiculo", response.toString());
+
                                                             try {
-                                                                if (response.names().get(0).equals("sucess")) {
+                                                                if (response.getBoolean("success")) {
 
                                                                     Intent main = new Intent (MainActivity.this,Selector.class);
-                                                                    Toast.makeText(MainActivity.this, "Bienvenido", Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(MainActivity.this, "Bienvenido1", Toast.LENGTH_SHORT).show();
                                                                     main.putExtra("token",Tok);
                                                                     main.putExtra("usuario",usuario.getText().toString());
                                                                     main.putExtra("vehiculo",response.getJSONObject("response").getJSONObject("vehiculo").get("placas").toString());
                                                                     startActivity(main);
                                                                 } else {
                                                                     Log.d("error", "error vehiculo");
-                                                                    Intent main = new Intent (MainActivity.this,Selector.class);
+                                                                    Intent main1 = new Intent (MainActivity.this,Selector.class);
                                                                     Toast.makeText(MainActivity.this, "Bienvenido", Toast.LENGTH_SHORT).show();
-                                                                    main.putExtra("token",Tok);
-                                                                    main.putExtra("usuario",usuario.getText().toString());
-                                                                    main.putExtra("vehiculo","1");
-                                                                    startActivity(main);
+                                                                    main1.putExtra("token",Tok);
+                                                                    main1.putExtra("usuario",usuario.getText().toString());
+                                                                    main1.putExtra("vehiculo","1");
+                                                                    startActivity(main1);
                                                                     Toast.makeText(getApplicationContext(), response.getString("error prro"), Toast.LENGTH_SHORT).show();
                                                                 }
                                                             } catch (JSONException e) {
@@ -125,8 +127,8 @@ public class MainActivity extends AppCompatActivity {
 
                                                 @Override
                                                 public void onErrorResponse(VolleyError error) {
-                                                    Toast.makeText(getApplicationContext(), "Sin conexión", Toast.LENGTH_SHORT).show();
-                                                    VolleyLog.d("error", "Error: " + error.getMessage());
+                                                    Toast.makeText(getApplicationContext(), "Sin conexión auto", Toast.LENGTH_SHORT).show();
+                                                    VolleyLog.d("error auto", "Error: " + error.getMessage());
                                                 }}) {
 
                                                 @Override

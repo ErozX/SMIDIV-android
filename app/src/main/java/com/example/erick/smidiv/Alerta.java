@@ -9,8 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -45,7 +47,7 @@ public class Alerta extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private static final String ARG_PARAM3 = "param3";
 
-    public ArrayList<ubicacionitem> ubicacion = new ArrayList<>();
+    public ArrayList<alarmaItem> alarma = new ArrayList<>();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -58,7 +60,7 @@ public class Alerta extends Fragment {
     public Alerta() {
         // Required empty public constructor
     }
-
+    public String alerta = new String();
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -74,6 +76,7 @@ public class Alerta extends Fragment {
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         args.putString(ARG_PARAM3, param3);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -93,9 +96,13 @@ public class Alerta extends Fragment {
                              Bundle savedInstanceState) {
         final View vista = inflater.inflate(R.layout.fragment_alerta, container, false);
         final RequestQueue queue = Volley.newRequestQueue(getContext());
-        //final String vehiculo =  "ABC123";
-        final String url ="http://192.168.1.69:10010/ubicacion/"+getArguments().getString(ARG_PARAM3).toString();
+        final String url ="http://192.168.1.64:10010/alarma/"+getArguments().getString(ARG_PARAM1).toString();
         final ListView lista  = (ListView) vista.findViewById(R.id.alarmas);
+        final TextView nohay = (TextView) vista.findViewById(R.id.no_alerta);
+        final Button actualizar = (Button) vista.findViewById(R.id.actu_ala);
+        final Button eliminar  = (Button) vista.findViewById(R.id.borr_ala);
+        actualizar.setVisibility(View.INVISIBLE);
+        eliminar.setVisibility(View.VISIBLE);
         ArrayList<ubicacionitem> ubic = new ArrayList<>();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
                 url,null,
@@ -104,20 +111,30 @@ public class Alerta extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            if(response.getJSONObject("response").getJSONArray("ubicaciones").length()==0){
+
+                            if(response.getJSONObject("response").getJSONArray("alarmas").length()==0){
+                                Log.d("alerta", "onResponse: "+response.getJSONObject("response").getJSONArray("alarmas").length());
                                 Toast.makeText(getContext(), "Todavia no tenemos información", Toast.LENGTH_SHORT).show();
                             }
-                            for (int i = 0; i <response.getJSONObject("response").getJSONArray("ubicaciones").length(); i++) {
-                                JSONObject info =  response.getJSONObject("response").getJSONArray("ubicaciones").getJSONObject(i);
-                                Log.d("contador", "onResponse: "+i);
-                                ubicacion.add(new ubicacionitem("casa",info.getJSONObject("ubicacion").get("lat").toString(),info.getJSONObject("ubicacion").get("lon").toString()));
-                                //añadeubicacion(new ubicacionitem("Casa",info.getJSONObject("ubicacion").get("lat").toString(),info.getJSONObject("ubicacion").get("lon").toString()));
+                            else{
+                                nohay.setVisibility(View.INVISIBLE);
+                                for (int i = 0; i <response.getJSONObject("response").getJSONArray("alarmas").length(); i++) {
+                                    JSONObject info =  response.getJSONObject("response").getJSONArray("alarmas").getJSONObject(i);
+                                    Log.d("contador", "onResponse: "+i);
+                                    if(info.get("estado").toString().equals("true")){
+                                        alarma.add(new alarmaItem("Encencida",info.getJSONObject("rangoDistancia").get("rango").toString(),info.getJSONObject("rangoHorario").get("inicio").toString(),info.getJSONObject("rangoHorario").get("fin").toString()));
+                                    }
+                                    else{
+                                        alarma.add(new alarmaItem("Apagada",info.getJSONObject("rangoDistancia").get("rango").toString(),info.getJSONObject("rangoHorario").get("inicio").toString(),info.getJSONObject("rangoHorario").get("fin").toString()));
+                                    }
+                                }
+
+                                AdaptadorAlarma ad = new AdaptadorAlarma(getContext(),alarma);
+
+                                Log.d("tamaño", "tamaño de ubicacion "+alarma.size());
+                                lista.setAdapter(ad);
+
                             }
-
-                            Adaptador1 ad = new Adaptador1(getContext(),ubicacion);
-
-                            Log.d("tamaño", "tamaño de ubicacion "+ubicacion.size());
-                            lista.setAdapter(ad);
 
 
                         } catch (JSONException e) {
@@ -141,6 +158,16 @@ public class Alerta extends Fragment {
             }
         };
         queue.add(request);
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                alarmaItem sel = (alarmaItem) adapterView.getItemAtPosition(i);
+                alerta = sel.getEstado();
+                actualizar.setVisibility(View.VISIBLE);
+                eliminar.setVisibility(View.VISIBLE);
+
+            }
+        });
         Button agregaralarma = (Button) vista.findViewById(R.id.button6);
         agregaralarma.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,11 +175,22 @@ public class Alerta extends Fragment {
                 Intent nuevo = new Intent(getContext(),AgregarAlarma.class);
                 nuevo.putExtra("usuario",getArguments().getString(ARG_PARAM1).toString());
                 nuevo.putExtra("token",getArguments().getString(ARG_PARAM2).toString());
+                nuevo.putExtra("vehiculo",getArguments().getString(ARG_PARAM3).toString());
                 startActivity(nuevo);
             }
         });
-
-        // Inflate the layout for this fragment
+        eliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), alerta, Toast.LENGTH_SHORT).show();
+            }
+        });
+        actualizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), alerta, Toast.LENGTH_SHORT).show();
+            }
+        });
         return vista;
     }
 
@@ -180,7 +218,6 @@ public class Alerta extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

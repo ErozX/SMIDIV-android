@@ -29,10 +29,12 @@
             android:layout_marginBottom="160dp"
             android:layout_marginEnd="162dp"
             android:layout_marginStart="161dp"
+            android:layout_marginTop="8dp"
             android:text="@string/agregar_ubicaci_n"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/listaubicacion" />
 
 
 
@@ -83,6 +85,19 @@
             app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+        <TextView
+            android:id="@+id/sin_ubic"
+            android:layout_width="304dp"
+            android:layout_height="106dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Todavia no contamos con información ligada a tu cuenta"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Ubi_agregaUbi" />
 
 
     </android.support.constraint.ConstraintLayout>

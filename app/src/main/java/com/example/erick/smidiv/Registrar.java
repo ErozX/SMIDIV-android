@@ -58,7 +58,7 @@ public class Registrar extends AppCompatActivity {
                 mDatePicker.show();
             }
         });
-        final String url ="http://192.168.1.69:10010/user";
+        final String url ="http://192.168.1.64:10010/user";
         final EditText usuario = (EditText) findViewById(R.id.editText4);
         final EditText contrasena = (EditText) findViewById(R.id.editText5);
         final EditText recontrasena = (EditText) findViewById(R.id.editText6);
@@ -90,7 +90,7 @@ public class Registrar extends AppCompatActivity {
                                                         StringRequest request;
                                                         Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
                                                         //irainicio();
-                                                        Intent nuevo = new Intent(Registrar.this, Selector.class);
+                                                        Intent nuevo = new Intent(Registrar.this, MainActivity.class);
                                                         nuevo.putExtra("token", response.names().get(0).equals("token"));
                                                         startActivity(nuevo);
 

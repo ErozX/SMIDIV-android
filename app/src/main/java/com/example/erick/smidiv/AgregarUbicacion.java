@@ -53,7 +53,7 @@ public class AgregarUbicacion extends AppCompatActivity implements OnMapReadyCal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_ubicacion);
         final RequestQueue queue = Volley.newRequestQueue(AgregarUbicacion.this);
-        final String url ="http://192.168.1.69:10010/ubicacionFav";
+        final String url ="http://192.168.1.64:10010/ubicacionFav";
         //final String url ="http://192.168.1.199:10010/ubicacionFav";
         final RequestQueue cola = Volley.newRequestQueue(AgregarUbicacion.this);
         final Button reg  = (Button) findViewById(R.id.reg_ubicacion);
@@ -89,7 +89,7 @@ public class AgregarUbicacion extends AppCompatActivity implements OnMapReadyCal
                             JSONObject ubi = new JSONObject();
 
                             ubi.put("lat", ubicacion.latitude);
-                            ubi.put("lon", ubicacion.longitude);
+                            ubi.put("lng", ubicacion.longitude);
                             json.put("ubicacion", ubi);
 
                             Log.d("prro json", "onClick: "+json);
@@ -105,10 +105,12 @@ public class AgregarUbicacion extends AppCompatActivity implements OnMapReadyCal
                                         try {
                                             if (response.names().get(0).equals("success")) {
                                                 StringRequest request;
-                                                Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getApplicationContext(), "Ubicacion guardada", Toast.LENGTH_SHORT).show();
                                                 //irainicio();
                                                 Intent nuevo = new Intent(AgregarUbicacion.this, Selector.class);
-                                                nuevo.putExtra("token", response.names().get(0).equals("token"));
+                                                nuevo.putExtra("usuario",getIntent().getExtras().get("usuario").toString());
+                                                nuevo.putExtra("vehiculo",getIntent().getExtras().get("vehiculo").toString());
+                                                nuevo.putExtra("token",getIntent().getExtras().get("token").toString());
                                                 startActivity(nuevo);
 
                                             } else {
@@ -148,9 +150,10 @@ public class AgregarUbicacion extends AppCompatActivity implements OnMapReadyCal
     }
     @Override
     public void onMapReady(GoogleMap map) {
-        LatLng sydney = new LatLng( 19.432608, -99.133209);
+        //LatLng sydney = new LatLng( 19.432608, -99.133209);
 
         mapa = map;
+        mapa.getUiSettings().setMyLocationButtonEnabled(true);
         mapa.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {

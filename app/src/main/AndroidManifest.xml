@@ -58,7 +58,9 @@
 
         <activity
             android:name=".DibujaMapa"
-            android:label="@string/title_activity_dibuja_mapa"></activity>
+            android:label="@string/title_activity_dibuja_mapa" />
+        <activity android:name=".ActualizarUsuario" />
+        <activity android:name=".ActualizarAlarma"></activity>
     </application>
 
 </manifest>

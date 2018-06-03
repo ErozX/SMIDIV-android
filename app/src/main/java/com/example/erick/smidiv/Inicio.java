@@ -77,11 +77,18 @@ public class Inicio extends Fragment {
         View vista = inflater.inflate(R.layout.fragment_inicio, container, false);
         TextView notif = (TextView) vista.findViewById(R.id.autoNot);
         notif.setVisibility(View.INVISIBLE);
-        if(getArguments().get("vehiculo").toString().equals("1")){
-            notif.setText("No encontramos un automovil registrado, por favor ingresa en la pestaña de 'Configuracion'");
-            notif.setVisibility(View.VISIBLE);
-            Toast.makeText(getContext(), "No encontramos automoviles registrados", Toast.LENGTH_SHORT).show();
+        try{
+            if(getArguments().get("vehiculo").toString().equals("1")){
+                notif.setText("No encontramos un automovil registrado, por favor ingresa en la pestaña de 'Configuracion'");
+                notif.setVisibility(View.VISIBLE);
+                Toast.makeText(getContext(), "No encontramos automoviles registrados", Toast.LENGTH_SHORT).show();
+            }
         }
+        catch (Exception e){
+            getArguments().get(ARG_PARAM3).toString();
+            Toast.makeText(getContext(), "Tienes un auto", Toast.LENGTH_SHORT).show();
+        }
+
 
         // Inflate the layout for this fragment
         return vista;

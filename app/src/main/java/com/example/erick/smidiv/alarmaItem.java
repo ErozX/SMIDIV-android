@@ -5,21 +5,21 @@ package com.example.erick.smidiv;
  */
 
 public class alarmaItem {
-        private String nombre;
         private String estado;
-        private String lat;
-        private String lon;
+        private String rango_inicio;
+        private String rango_dist;
+        private String rango_fin;
 
 
-        public alarmaItem(String nombre, String estado, String lat, String lon){
-            this.nombre = nombre;
+        public alarmaItem(String estado, String rango_dist, String rango_inicio,String rango_fin){
             this.estado = estado;
-            this.lat = lat;
-            this.lon = lon;
+            this.rango_dist = rango_dist;
+            this.rango_inicio = rango_inicio;
+            this.rango_fin = rango_fin;
         }
-        public String getNombre(){return nombre;}
         public String getEstado(){return  estado;}
-        public String getLat(){return lat;}
-        public String getLon(){return lon;}
+        public String getRango_inicio(){return rango_inicio;}
+        public String getRango_dist(){return rango_dist;}
+        public String getRango_fin(){return rango_fin;}
 
 }

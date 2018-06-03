@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 
@@ -74,6 +75,7 @@ public class Configuracion extends Fragment {
         // Inflate the layout for this fragment
         View vista = inflater.inflate(R.layout.fragment_configuracion, container, false);
         ImageButton config = vista.findViewById(R.id.configButton);
+        Button actualiza = vista.findViewById(R.id.act_usu);
         config.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,9 +94,21 @@ public class Configuracion extends Fragment {
                 Intent enviar = new Intent(getContext(),AgregarAutomovil.class);
                 enviar.putExtra("usuario",getArguments().getString(ARG_PARAM1).toString());
                 enviar.putExtra("token",getArguments().getString(ARG_PARAM2).toString());
+                enviar.putExtra("vehiculo",getArguments().getString(ARG_PARAM3).toString());
                 startActivity(enviar);
             }
         });
+        actualiza.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent enviar = new Intent(getContext(),ActualizarUsuario.class);
+                enviar.putExtra("usuario",getArguments().getString(ARG_PARAM1).toString());
+                enviar.putExtra("token",getArguments().getString(ARG_PARAM2).toString());
+                enviar.putExtra("vehiculo",getArguments().getString(ARG_PARAM3).toString());
+                startActivity(enviar);
+            }
+        });
+
         return vista;
 
     }

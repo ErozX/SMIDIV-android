@@ -38,7 +38,7 @@ public class AgregarAutomovil extends AppCompatActivity {
         final EditText nombre = (EditText) findViewById(R.id.editText4);
         final Button registrar = (Button) findViewById(R.id.button7);
         final RequestQueue cola = Volley.newRequestQueue(AgregarAutomovil.this);
-        final String url ="http://192.168.1.69:10010/vehicle";
+        final String url ="http://192.168.1.64:10010/vehicle";
 
         registrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,19 +64,16 @@ public class AgregarAutomovil extends AppCompatActivity {
                                 @Override
                                 public void onResponse(JSONObject response) {
 
-                                    try {
 
-                                            StringRequest request;
-                                            Toast.makeText(getApplicationContext(), response.getString("message"), Toast.LENGTH_SHORT).show();
+
+                                            Toast.makeText(getApplicationContext(), "Vehiculo guardado", Toast.LENGTH_SHORT).show();
                                             //irainicio();
-                                            Intent nuevo = new Intent(AgregarAutomovil.this, Selector.class);
-                                            nuevo.putExtra("token", response.names().get(0).equals("token"));
+
+                                            Intent nuevo = new Intent(AgregarAutomovil.this, MainActivity.class);
                                             startActivity(nuevo);
 
 
-                                    }catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
+
                                 }
                             }, new Response.ErrorListener() {
 

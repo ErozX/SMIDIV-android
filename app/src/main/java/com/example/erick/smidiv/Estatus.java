@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -93,9 +94,9 @@ public class Estatus extends Fragment {
         // Inflate the layout for this fragment
 
         final RequestQueue queue = Volley.newRequestQueue(getContext());
-        final String vehiculo =  "ABC123";
-        final String url ="http://192.168.1.69:10010/OBD" +
-                "/"+vehiculo;
+        final TextView noobd = vista.findViewById(R.id.no_obd);
+        final String url ="http://192.168.1.64:10010/OBD" +
+                "/"+getArguments().get(ARG_PARAM3).toString();
         final ListView lista  = (ListView) vista.findViewById(R.id.estus);
         ArrayList<ubicacionitem> ubic = new ArrayList<>();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
@@ -105,20 +106,29 @@ public class Estatus extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+
+                            Log.d("respuesta", "onResponse: " + response);
                             if(response.getJSONObject("response").getJSONArray("OBD").length()==0){
-                                Toast.makeText(getContext(), "Todavia no tenemos información", Toast.LENGTH_SHORT).show();
-                            }
-                            for (int i = 0; i <response.getJSONObject("response").getJSONArray("OBD").length(); i++) {
-                                JSONObject info =  response.getJSONObject("response").getJSONArray("OBD").getJSONObject(i);
-                                Log.d("contador", "onResponse: "+i);
-                                obds.add(new obdItem(info.get("tipo").toString(),info.get("valor").toString()));
-                                //añadeubicacion(new ubicacionitem("Casa",info.getJSONObject("ubicacion").get("lat").toString(),info.getJSONObject("ubicacion").get("lon").toString()));
-                            }
+                                Toast.makeText(getActivity(), "Todavia no tenemos información", Toast.LENGTH_SHORT).show();
 
-                            AdaptadorOBD ad = new AdaptadorOBD(getContext(),obds);
+                            }
+                            else {
+                                noobd.setVisibility(View.INVISIBLE);
+                                for (int i = 0; i <response.getJSONObject("response").getJSONArray("OBD").length(); i++) {
 
-                            Log.d("tamaño", "tamaño de ubicacion "+obds.size());
-                            lista.setAdapter(ad);
+                                    JSONObject info =  response.getJSONObject("response").getJSONArray("OBD").getJSONObject(i);
+                                    Log.d("obd", info.toString());
+                                    if(info.get("tipo").toString().length()!=0){
+
+                                        obds.add(new obdItem(info.get("tipo").toString(),info.get("valor").toString()));
+                                    }
+
+                                }
+
+                                AdaptadorOBD ad = new AdaptadorOBD(getContext(),obds);
+                                lista.setAdapter(ad);
+
+                            }
 
 
                         } catch (JSONException e) {

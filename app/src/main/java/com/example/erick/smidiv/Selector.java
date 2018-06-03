@@ -89,7 +89,7 @@ public class Selector extends AppCompatActivity {
 
         FragmentManager fragmentManager1 = getSupportFragmentManager();
         Bundle arguments = new Bundle();
-        Log.d("usuario", getIntent().getExtras().get("usuario").toString());
+        //Log.d("usuario", getIntent().getExtras().get("usuario").toString());
         arguments.putString("usuario",getIntent().getExtras().get("usuario").toString());
         arguments.putString("token",getIntent().getExtras().get("token").toString());
         arguments.putString("vehiculo",getIntent().getExtras().get("vehiculo").toString());

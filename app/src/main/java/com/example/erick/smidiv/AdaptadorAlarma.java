@@ -39,13 +39,17 @@ public class AdaptadorAlarma extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        obdItem item = (obdItem) getItem(i);
-        view = LayoutInflater.from(context).inflate(R.layout.obd_item,null);
-        TextView clave = view.findViewById(R.id.clave);
-        TextView valor = view.findViewById(R.id.valor);
-        clave.setText(item.getTipo());
-        valor.setText(item.getValor());
+        alarmaItem item = (alarmaItem) getItem(i);
+        view = LayoutInflater.from(context).inflate(R.layout.alarmaitem,null);
 
+        TextView estado = view.findViewById(R.id.estado);
+        TextView rango_dist =  view.findViewById(R.id.rango_dist);
+        TextView rango_ini = view.findViewById(R.id.r_inicio);
+        TextView rango_fin = view.findViewById(R.id.r_fin);
+        estado.setText(item.getEstado());
+        rango_dist.setText(item.getRango_dist());
+        rango_ini.setText(item.getRango_fin());
+        rango_fin.setText(item.getRango_fin());
         return view;
     }
 }
