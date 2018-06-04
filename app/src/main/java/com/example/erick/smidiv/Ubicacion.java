@@ -41,6 +41,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -149,14 +150,20 @@ public class Ubicacion extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             if(response.getJSONObject("response").getJSONArray("ubicaciones").length()==0){
-                                Log.d("tam", "onResponse: "+response.getJSONObject("response").getJSONArray("ubicaciones").length());
                                 Toast.makeText(getContext(), "Todavia no tenemos información", Toast.LENGTH_SHORT).show();
                             }
                             else {
                                 no_ubi.setVisibility(View.INVISIBLE);
                                 for (int i = 0; i <response.getJSONObject("response").getJSONArray("ubicaciones").length(); i++) {
                                     JSONObject info =  response.getJSONObject("response").getJSONArray("ubicaciones").getJSONObject(i);
-                                    ubicacion.add(new ubicacionitem(String.valueOf(i),info.getJSONObject("ubicacion").get("lat").toString(),info.getJSONObject("ubicacion").get("lng").toString()));
+                                    Log.d("ubicacion object", "onResponse: "+info.toString());
+                                    DateFormat fecha_parse = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
+
+                                    Date fecha = new Date();
+                                    String fech = new String();
+                                    fecha = fecha_parse.parse(info.getString("fechaCreacion").toString());
+                                    fech = fecha_parse.format(fecha);
+                                    ubicacion.add(new ubicacionitem(fech,info.getJSONObject("ubicacion").get("lat").toString(),info.getJSONObject("ubicacion").get("lng").toString()));
                                  }
                                 Adaptador1 ad = new Adaptador1(getContext(),ubicacion);
                                 lista.setAdapter(ad);
@@ -164,6 +171,8 @@ public class Ubicacion extends Fragment {
 
 
                         } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (ParseException e) {
                             e.printStackTrace();
                         }
                     }

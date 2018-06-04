@@ -12,84 +12,24 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/no_alerta2"
-            android:layout_width="336dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="44dp"
-            android:text="Todavia no contamos con información ligada a tu cuenta"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.491"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button6" />
-
-        <TextView
-            android:id="@+id/no_ubic3"
-            android:layout_width="304dp"
-            android:layout_height="106dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Todavia no contamos con información ligada a tu cuenta"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Ubi_agregaUbi" />
-
-        <TextView
-            android:id="@+id/no_ubic2"
-            android:layout_width="304dp"
-            android:layout_height="106dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Todavia no contamos con información ligada a tu cuenta"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Ubi_agregaUbi" />
-
-        <TextView
             android:id="@+id/ubicacion2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="84dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="156dp"
             android:text="Ubicacion"
             android:textAppearance="?android:attr/textAppearanceLarge"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.801"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/fechaUbicacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="56dp"
             android:layout_marginTop="156dp"
-            android:text="@string/fecha"
+            android:text="Fecha"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            app:layout_constraintEnd_toStartOf="@+id/ubicacion2"
-            app:layout_constraintHorizontal_bias="0.903"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/IDubicacion2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="156dp"
-            android:text="@string/id"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            app:layout_constraintEnd_toStartOf="@+id/fechaUbicacion"
-            app:layout_constraintHorizontal_bias="0.765"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -97,9 +37,13 @@
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
             android:layout_height="132dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="4dp"
             android:src="@drawable/estatus1"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="0dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ListView
             android:id="@+id/estus"
@@ -118,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="16dp"
             android:text="Todavia no contamos con información ligada a tu cuenta"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"

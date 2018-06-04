@@ -102,7 +102,7 @@ public class Alerta extends Fragment {
         final Button actualizar = (Button) vista.findViewById(R.id.actu_ala);
         final Button eliminar  = (Button) vista.findViewById(R.id.borr_ala);
         actualizar.setVisibility(View.INVISIBLE);
-        eliminar.setVisibility(View.VISIBLE);
+        eliminar.setVisibility(View.INVISIBLE);
         ArrayList<ubicacionitem> ubic = new ArrayList<>();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
                 url,null,
@@ -120,12 +120,13 @@ public class Alerta extends Fragment {
                                 nohay.setVisibility(View.INVISIBLE);
                                 for (int i = 0; i <response.getJSONObject("response").getJSONArray("alarmas").length(); i++) {
                                     JSONObject info =  response.getJSONObject("response").getJSONArray("alarmas").getJSONObject(i);
-                                    Log.d("contador", "onResponse: "+i);
+
+                                    Log.d("contador", "onResponse: "+info.toString());
                                     if(info.get("estado").toString().equals("true")){
                                         alarma.add(new alarmaItem("Encencida",info.getJSONObject("rangoDistancia").get("rango").toString(),info.getJSONObject("rangoHorario").get("inicio").toString(),info.getJSONObject("rangoHorario").get("fin").toString()));
                                     }
                                     else{
-                                        alarma.add(new alarmaItem("Apagada",info.getJSONObject("rangoDistancia").get("rango").toString(),info.getJSONObject("rangoHorario").get("inicio").toString(),info.getJSONObject("rangoHorario").get("fin").toString()));
+                                        alarma.add(new alarmaItem("Apagada",info.getJSONObject("rangoDistancia").get("rango").toString(),info.getString("_id").toString(),info.getJSONObject("ubicacionfav").get("nombre").toString()));
                                     }
                                 }
 

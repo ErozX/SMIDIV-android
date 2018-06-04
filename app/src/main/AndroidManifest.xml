@@ -24,7 +24,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAKfwcyHVNjbcZ5eml-K7EWQ_hexIr0rbc" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,12 +33,12 @@
         </activity>
         <activity
             android:name=".Selector"
-            android:label="@string/title_activity_selector" />
-        <activity android:name=".Registrar" />
-        <activity android:name=".CambiarContrasena" />
-        <activity android:name=".AgregarAutomovil" />
-        <activity android:name=".AgregarUbicacion" />
-        <activity android:name=".AgregarAlarma" />
+            android:label="@string/title_activity_selector" android:screenOrientation="sensorPortrait" />
+        <activity android:name=".Registrar" android:screenOrientation="portrait"/>
+        <activity android:name=".CambiarContrasena" android:screenOrientation="portrait"/>
+        <activity android:name=".AgregarAutomovil" android:screenOrientation="portrait"/>
+        <activity android:name=".AgregarUbicacion" android:screenOrientation="portrait"/>
+        <activity android:name=".AgregarAlarma" android:screenOrientation="portrait"/>
 
         <uses-library android:name="com.google.android.maps" />
 
@@ -58,9 +58,9 @@
 
         <activity
             android:name=".DibujaMapa"
-            android:label="@string/title_activity_dibuja_mapa" />
-        <activity android:name=".ActualizarUsuario" />
-        <activity android:name=".ActualizarAlarma"></activity>
+            android:label="@string/title_activity_dibuja_mapa" android:screenOrientation="portrait"/>
+        <activity android:name=".ActualizarUsuario" android:screenOrientation="sensorPortrait"/>
+        <activity android:name=".ActualizarAlarma" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

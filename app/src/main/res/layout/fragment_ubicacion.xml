@@ -37,18 +37,14 @@
             app:layout_constraintTop_toBottomOf="@+id/listaubicacion" />
 
 
-
         <TextView
             android:id="@+id/IDubicacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="52dp"
             android:layout_marginTop="156dp"
             android:text="@string/id"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            app:layout_constraintEnd_toStartOf="@+id/FechaUbicacion"
-            app:layout_constraintHorizontal_bias="0.886"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,18 +52,20 @@
             android:id="@+id/FechaUbicacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="28dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="156dp"
-            android:text="@string/fecha"
+            android:text="Fecha"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            app:layout_constraintEnd_toStartOf="@+id/Ubicacion"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/Ubicacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="84dp"
+            android:layout_marginEnd="44dp"
             android:layout_marginTop="156dp"
             android:text="Ubicacion"
             android:textAppearance="?android:attr/textAppearanceLarge"

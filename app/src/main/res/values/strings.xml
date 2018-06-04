@@ -33,7 +33,7 @@
     <string name="agregar_ubicaci_n">Agregar ubicación</string>
     <string name="cambiar_contrase_a">Cambiar Contraseña</string>
     <string name="id">ID</string>
-    <string name="fecha">Fecha</string>
+    <string name="fecha">Fecha de nacimiento</string>
     <string name="hora">Hora</string>
     <string name="nombre_automov_l">Nombre Automovíl</string>
     <string name="modelo_automovil">Modelo Automovil</string>
