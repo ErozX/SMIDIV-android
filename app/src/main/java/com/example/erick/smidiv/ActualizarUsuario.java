@@ -37,7 +37,7 @@ public class ActualizarUsuario extends AppCompatActivity {
         final EditText email = (EditText) findViewById(R.id.editText9);
         final EditText fecha = (EditText) findViewById(R.id.editText13);
         Button actualizar = (Button) findViewById(R.id.button4);
-        final String url ="http://192.168.1.64:10010/user/"+getIntent().getExtras().get("usuario").toString();
+        final String url ="http://smidiv.javiersl.com:10010/user/"+getIntent().getExtras().get("usuario").toString();
         final RequestQueue cola = Volley.newRequestQueue(ActualizarUsuario.this);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
                 url, null,

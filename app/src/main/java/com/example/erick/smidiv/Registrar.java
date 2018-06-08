@@ -58,7 +58,7 @@ public class Registrar extends AppCompatActivity {
                 mDatePicker.show();
             }
         });
-        final String url ="http://192.168.1.64:10010/user";
+        final String url ="http://smidiv.javiersl.com:10010/user";
         final EditText usuario = (EditText) findViewById(R.id.editText4);
         final EditText contrasena = (EditText) findViewById(R.id.editText5);
         final EditText recontrasena = (EditText) findViewById(R.id.editText6);

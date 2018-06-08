@@ -104,7 +104,7 @@
 
     <ListView
         android:id="@+id/listview1"
-        android:layout_width="263dp"
+        android:layout_width="313dp"
         android:layout_height="93dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"

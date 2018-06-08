@@ -41,6 +41,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -138,7 +139,7 @@ public class Ubicacion extends Fragment {
 
         final RequestQueue queue = Volley.newRequestQueue(getContext());
 
-        final String url ="http://192.168.1.64:10010/ubicacion/"+getArguments().getString(ARG_PARAM3).toString();
+        final String url ="http://smidiv.javiersl.com:10010/ubicacion/"+getArguments().getString(ARG_PARAM3).toString();
         final ListView lista  = (ListView) vista.findViewById(R.id.listaubicacion);
         final TextView no_ubi = (TextView) vista.findViewById(R.id.sin_ubic);
         ArrayList<ubicacionitem> ubic = new ArrayList<>();
@@ -157,13 +158,15 @@ public class Ubicacion extends Fragment {
                                 for (int i = 0; i <response.getJSONObject("response").getJSONArray("ubicaciones").length(); i++) {
                                     JSONObject info =  response.getJSONObject("response").getJSONArray("ubicaciones").getJSONObject(i);
                                     Log.d("ubicacion object", "onResponse: "+info.toString());
-                                    DateFormat fecha_parse = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
+                                    //DateFormat fecha_parse = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
+                                    DateFormat fecha_parse = new SimpleDateFormat("YY-MM-dd");
 
                                     Date fecha = new Date();
                                     String fech = new String();
                                     fecha = fecha_parse.parse(info.getString("fechaCreacion").toString());
                                     fech = fecha_parse.format(fecha);
-                                    ubicacion.add(new ubicacionitem(fech,info.getJSONObject("ubicacion").get("lat").toString(),info.getJSONObject("ubicacion").get("lng").toString()));
+
+                                    ubicacion.add(new ubicacionitem(String.valueOf(fech.toString()),info.getJSONObject("ubicacion").get("lat").toString(),info.getJSONObject("ubicacion").get("lng").toString()));
                                  }
                                 Adaptador1 ad = new Adaptador1(getContext(),ubicacion);
                                 lista.setAdapter(ad);

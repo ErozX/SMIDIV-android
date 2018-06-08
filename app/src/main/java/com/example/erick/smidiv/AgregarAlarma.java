@@ -38,12 +38,13 @@ import static java.lang.Boolean.FALSE;
 public class AgregarAlarma extends AppCompatActivity {
     String tipoalarma = new String();
     public String ubicacion = new String();
+    public Boolean est =  false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_alarma);
-        final String url = "http://192.168.1.64:10010/alarma";
+        final String url = "http://smidiv.javiersl.com:10010/alarma";
         final RequestQueue cola = Volley.newRequestQueue(AgregarAlarma.this);
         EditText placas = (EditText) findViewById(R.id.editText4);
         final EditText rango = (EditText) findViewById(R.id.rangoKil);
@@ -92,11 +93,11 @@ public class AgregarAlarma extends AppCompatActivity {
         estado.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
+                est = b;
             }
         });
 
-        final String url1 = "http://192.168.1.64:10010/ubicacionFav/"+getIntent().getStringExtra("usuario");
+        final String url1 = "http://smidiv.javiersl.com:10010/ubicacionFav/"+getIntent().getStringExtra("usuario");
 
         final ArrayList<String> ubic = new ArrayList<>();
 
@@ -113,7 +114,7 @@ public class AgregarAlarma extends AppCompatActivity {
                                 for (int i = 0; i < response.getJSONObject("response").getJSONArray("ubicaciones").length(); i++) {
                                     JSONObject info = response.getJSONObject("response").getJSONArray("ubicaciones").getJSONObject(i);
                                     Log.d("contador", "onResponse: " + i);
-                                    ubicacion.add(new ubicacionitem(info.get("nombre").toString(), info.getJSONObject("ubicacion").get("lat").toString(), info.getJSONObject("ubicacion").get("lng").toString()));
+                                    ubicacion.add(new ubicacionitem(info.get("nombre").toString(), info.getJSONObject("ubicacion").get("lat").toString().substring(0,5), info.getJSONObject("ubicacion").get("lng").toString().substring(0,5)));
                                     }
 
                                 Adaptador1 ad = new Adaptador1(AgregarAlarma.this, ubicacion);
@@ -150,6 +151,7 @@ public class AgregarAlarma extends AppCompatActivity {
                 return headers;
             }
         };
+        //estado.setOnCheckedChangeListener(ne);
         cola.add(request);
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -169,12 +171,12 @@ public class AgregarAlarma extends AppCompatActivity {
                         json.put("username", getIntent().getExtras().getString("usuario").toString());
                         json.put("vehiculo", getIntent().getExtras().getString("vehiculo").toString());
                         json.put("ubicacionFav", ubicacion);
-                        json.put("estado",estado.getSplitTrack());
-                        JSONObject on = new JSONObject();
+                        json.put("estado",est);
+                        /*JSONObject on = new JSONObject();
 
                         on.put("rango", Integer.valueOf(rango.getText().toString()));
 
-                        json.put("rangoDistancia", on);
+                        json.put("rangoDistancia", on);*/
                         JSONObject un = new JSONObject();
                         un.put("inicio", rango_inicio.getText().toString());
                         un.put("fin", rango_fin.getText().toString());

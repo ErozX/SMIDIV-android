@@ -38,7 +38,7 @@ public class AgregarAutomovil extends AppCompatActivity {
         final EditText nombre = (EditText) findViewById(R.id.editText4);
         final Button registrar = (Button) findViewById(R.id.button7);
         final RequestQueue cola = Volley.newRequestQueue(AgregarAutomovil.this);
-        final String url ="http://192.168.1.64:10010/vehicle";
+        final String url ="http://smidiv.javiersl.com:10010/vehicle";
 
         registrar.setOnClickListener(new View.OnClickListener() {
             @Override

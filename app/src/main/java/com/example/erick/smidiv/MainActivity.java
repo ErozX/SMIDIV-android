@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
         final EditText contrasena = (EditText) findViewById(R.id.editText2);
         final RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
         //http://192.168.1.69:1001
-        //final String url ="http://smidiv.javiersl.com:10010/login";
-        final String url ="http://192.168.1.64:10010/login";
+        final String url ="http://smidiv.javiersl.com:10010/login";
+        //final String url ="http://192.168.1.64:10010/login";
         inicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,8 +90,7 @@ public class MainActivity extends AppCompatActivity {
                                             nueva.putExtra("usuario",usuario.getText().toString());
 
                                             final RequestQueue cola = Volley.newRequestQueue(MainActivity.this);
-                                            Toast.makeText(MainActivity.this, "login", Toast.LENGTH_SHORT).show();
-                                            String direccion = "http://192.168.1.64:10010/vehicle/"+usuario.getText().toString();
+                                            String direccion = "http://smidiv.javiersl.com:10010/vehicle/"+usuario.getText().toString();
                                             JsonObjectRequest request1 = new JsonObjectRequest(Request.Method.GET,
                                                     direccion, null,
                                                     new Response.Listener<JSONObject>() {
@@ -104,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                                                                 if (response.getBoolean("success")) {
 
                                                                     Intent main = new Intent (MainActivity.this,Selector.class);
-                                                                    Toast.makeText(MainActivity.this, "Bienvenido1", Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(MainActivity.this, "Bienvenido", Toast.LENGTH_SHORT).show();
                                                                     main.putExtra("token",Tok);
                                                                     main.putExtra("usuario",usuario.getText().toString());
                                                                     main.putExtra("vehiculo",response.getJSONObject("response").getJSONObject("vehiculo").get("placas").toString());

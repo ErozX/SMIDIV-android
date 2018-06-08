@@ -53,7 +53,7 @@ public class AgregarUbicacion extends AppCompatActivity implements OnMapReadyCal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_ubicacion);
         final RequestQueue queue = Volley.newRequestQueue(AgregarUbicacion.this);
-        final String url ="http://192.168.1.64:10010/ubicacionFav";
+        final String url ="http://smidiv.javiersl.com:10010/ubicacionFav";
         //final String url ="http://192.168.1.199:10010/ubicacionFav";
         final RequestQueue cola = Volley.newRequestQueue(AgregarUbicacion.this);
         final Button reg  = (Button) findViewById(R.id.reg_ubicacion);

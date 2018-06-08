@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -43,9 +44,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationbuilder.setContentTitle("ALARMA SMIDIV");
         notificationbuilder.setContentText("Hemos detectado que tu vehiculo salio de la zona segura");
         notificationbuilder.setAutoCancel(true);
-        notificationbuilder.setSound(defaultSountUri);
-        notificationbuilder.setContentIntent(pendingIntent);
+        notificationbuilder.setLights(Color.BLUE, 500, 500);
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALL);
+        notificationbuilder.setSound(uri);
 
+        long[] v = {500,1000};
+        notificationbuilder.setVibrate(v);
+        notificationbuilder.setContentIntent(pendingIntent);
         NotificationManager notificationManager =  (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0,notificationbuilder.build());
     }

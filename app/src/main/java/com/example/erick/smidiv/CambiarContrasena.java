@@ -31,7 +31,7 @@ public class CambiarContrasena extends AppCompatActivity {
         final TextView email = (TextView) findViewById(R.id.textView5);
         Button cambiar = (Button) findViewById(R.id.button9);
         final RequestQueue queue = Volley.newRequestQueue(CambiarContrasena.this);
-        final String url ="http://192.168.1.64:10010/mail";
+        final String url ="http://smidiv.javiersl.com:10010/mail";
 
         cambiar.setOnClickListener(new View.OnClickListener() {
             @Override

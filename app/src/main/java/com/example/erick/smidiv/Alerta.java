@@ -96,7 +96,7 @@ public class Alerta extends Fragment {
                              Bundle savedInstanceState) {
         final View vista = inflater.inflate(R.layout.fragment_alerta, container, false);
         final RequestQueue queue = Volley.newRequestQueue(getContext());
-        final String url ="http://192.168.1.64:10010/alarma/"+getArguments().getString(ARG_PARAM1).toString();
+        final String url ="http://smidiv.javiersl.com:10010/alarma/"+getArguments().getString(ARG_PARAM1).toString();
         final ListView lista  = (ListView) vista.findViewById(R.id.alarmas);
         final TextView nohay = (TextView) vista.findViewById(R.id.no_alerta);
         final Button actualizar = (Button) vista.findViewById(R.id.actu_ala);
@@ -120,14 +120,26 @@ public class Alerta extends Fragment {
                                 nohay.setVisibility(View.INVISIBLE);
                                 for (int i = 0; i <response.getJSONObject("response").getJSONArray("alarmas").length(); i++) {
                                     JSONObject info =  response.getJSONObject("response").getJSONArray("alarmas").getJSONObject(i);
+                                    if(info.has("rangoHorario")){
+                                        if(info.get("estado").toString().equals("true")){
+                                            alarma.add(new alarmaItem(String.valueOf(i),"Encencida",info.getJSONObject("rangoHorario").get("inicio").toString(),info.getJSONObject("rangoHorario").get("fin").toString(),info.get("nombre").toString()));
+                                        }
+                                        else{
+                                            //alarma.add(new alarmaItem(String.valueOf(i),"Apagada",info.getJSONObject("rangoDistancia").get("rango").toString(),info.getString("_id").toString(),info.getJSONObject("ubicacionfav").get("nombre").toString()));
+                                            alarma.add(new alarmaItem(String.valueOf(i),"Encencida",info.getJSONObject("rangoHorario").get("inicio").toString(),info.getJSONObject("rangoHorario").get("fin").toString(),info.get("nombre").toString()));
+                                        }
+                                    }
+                                    else {
+                                        if(info.get("estado").toString().equals("true")){
+                                            alarma.add(new alarmaItem(String.valueOf(i),"Encendida",info.getJSONObject("rangoDistancia").get("rango").toString(),info.getString("_id").toString(),info.getJSONObject("ubicacionfav").get("nombre").toString()));
+                                        }else {
 
+                                            alarma.add(new alarmaItem(String.valueOf(i),"Apagada",info.getJSONObject("rangoDistancia").get("rango").toString(),info.getString("_id").toString(),info.getJSONObject("ubicacionfav").get("nombre").toString()));
+                                        }
+
+                                    }
                                     Log.d("contador", "onResponse: "+info.toString());
-                                    if(info.get("estado").toString().equals("true")){
-                                        alarma.add(new alarmaItem("Encencida",info.getJSONObject("rangoDistancia").get("rango").toString(),info.getJSONObject("rangoHorario").get("inicio").toString(),info.getJSONObject("rangoHorario").get("fin").toString()));
-                                    }
-                                    else{
-                                        alarma.add(new alarmaItem("Apagada",info.getJSONObject("rangoDistancia").get("rango").toString(),info.getString("_id").toString(),info.getJSONObject("ubicacionfav").get("nombre").toString()));
-                                    }
+
                                 }
 
                                 AdaptadorAlarma ad = new AdaptadorAlarma(getContext(),alarma);
@@ -159,7 +171,7 @@ public class Alerta extends Fragment {
             }
         };
         queue.add(request);
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 alarmaItem sel = (alarmaItem) adapterView.getItemAtPosition(i);
@@ -168,7 +180,7 @@ public class Alerta extends Fragment {
                 eliminar.setVisibility(View.VISIBLE);
 
             }
-        });
+        });*/
         Button agregaralarma = (Button) vista.findViewById(R.id.button6);
         agregaralarma.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,7 +201,11 @@ public class Alerta extends Fragment {
         actualizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), alerta, Toast.LENGTH_SHORT).show();
+                Intent actualizar = new Intent(getContext(),ActualizarAlarma.class);
+                actualizar.putExtra("usuario",getArguments().get(ARG_PARAM1).toString());
+                actualizar.putExtra("token",getArguments().get(ARG_PARAM2).toString());
+                actualizar.putExtra("vehiculo",getArguments().get(ARG_PARAM3).toString());
+                startActivity(actualizar);
             }
         });
         return vista;

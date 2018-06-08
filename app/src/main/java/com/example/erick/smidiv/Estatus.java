@@ -95,7 +95,7 @@ public class Estatus extends Fragment {
 
         final RequestQueue queue = Volley.newRequestQueue(getContext());
         final TextView noobd = vista.findViewById(R.id.no_obd);
-        final String url ="http://192.168.1.64:10010/OBD" +
+        final String url ="http://smidiv.javiersl.com:10010/OBD" +
                 "/"+getArguments().get(ARG_PARAM3).toString();
         final ListView lista  = (ListView) vista.findViewById(R.id.estus);
         ArrayList<ubicacionitem> ubic = new ArrayList<>();
@@ -118,9 +118,39 @@ public class Estatus extends Fragment {
 
                                     JSONObject info =  response.getJSONObject("response").getJSONArray("OBD").getJSONObject(i);
                                     Log.d("obd", info.toString());
+                                    String tipo = new String();
                                     if(info.get("tipo").toString().length()!=0){
+                                        if(info.get("tipo").toString().equals("RPM")){
+                                            tipo = info.get("valor").toString();
+                                            tipo = tipo + " RPM";
+                                        }
+                                        if(info.get("tipo").toString().equals("GASOLINA")){
+                                            tipo = info.get("valor").toString();
+                                            tipo = tipo + " litros";
+                                        }
+                                        if(info.get("tipo").toString().equals("VELOCIDAD")){
+                                            tipo = info.get("valor").toString();
+                                            tipo = tipo + " km/h";
+                                        }
+                                        if(info.get("tipo").toString().equals("CARGA DE MOTOR")){
+                                            tipo = info.get("valor").toString();
+                                            tipo = tipo + " %";
+                                        }
+                                        if(info.get("tipo").toString().equals("ACELERADOR")){
+                                            tipo = info.get("valor").toString();
+                                            tipo = tipo + " %";
+                                        }
+                                        if(info.get("tipo").toString().equals("BATERIA")){
+                                            tipo = info.get("valor").toString();
+                                            tipo = tipo + " V";
+                                        }
+                                        if(info.get("tipo").toString().equals("DTC")){
+                                            tipo = info.get("valor").toString();
 
-                                        obds.add(new obdItem(info.get("tipo").toString(),info.get("valor").toString()));
+                                        }
+
+
+                                        obds.add(new obdItem(info.get("tipo").toString(),tipo));
                                     }
 
                                 }
